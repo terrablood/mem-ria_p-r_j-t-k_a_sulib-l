@@ -10,21 +10,35 @@
 // el kell tárolni, hogy hány kártya maradt
 // ha a kártyák elfogytak kihirdeti a győzelmed és új játszmát ajánl
 
-let diveklistája = document.querySelectorAll('div') // tárolja a kártyákat
+let dl = document.querySelectorAll('div'); // tárolja a kártyákat
 let szamlista = [1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,11,11,12,12,13,13,14,14,15,15,16,16,17,17,18,18]// tárolja a számokat
 let jelenleg_felfordítva // tárolja a felfordítottakat
 let számláló = 36 // tárolja hogy mennyi kártya nem kék
-function kiosztás(lapokra_kerülő_számok) // kiossza a diveknek a számát
+
+function veletlenEgesz(a,b){ //balról benne lehet, jobbról meg nem,  így a ketővel generál egy random számot
+    return a+Math.floor(Math.random()*(b-a));
+}
+function keveres(){ //megkeveri a beérkező lista elemeit
+    let l = [...szamlista] //átmásolja t elemeit l-be
+    for (let i =0; i < l.length; i++) {
+        let temp = l[i];
+        let x = veletlenEgesz(i, l.length)
+        l[i] = l[x];
+        l[x] = temp;
+    }
+    return l;
+}
+function kiosztás() // kiossza a diveknek a számát
 {
-    let l = [...lapokra_kerülő_számok]
-    for (const valamelyik of diveklistája) 
+    for (let i =0; i < diveklistája.length; i++) 
     {
-        
+        let s = keveres();
+        diveklistája[i].classList.toggle(s[i]);
     }
 }
-function fordul_a_lap(felfordítandó)
+function fordul_a_lap(e)
 {
-    // megmutatja a lap számát
+        alert('rám kattintottál?');
 }
 function a_második_e(ellenörzendő, lista_amiben_ellenőrizzűk)
 {
@@ -44,3 +58,12 @@ function félretesz(félretevendő)
     // kékre színezi és kattinthatatlanná teszi
 }
 function nyertél_e(nem_kékek)
+
+function main()
+{
+    for (const e of dl) {
+        e.addEventListener('click', fordul_a_lap); // hozzáadja az elemhez a kattintás eseményt.
+    }
+}
+
+
